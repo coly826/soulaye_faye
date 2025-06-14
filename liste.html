@@ -49,6 +49,10 @@
         page-break-inside: avoid;
       }
 
+      .page-break {
+        page-break-after: always;
+      }
+
       h2 {
         text-align: center;
       }
@@ -63,7 +67,7 @@
       <table class="table table-bordered table-striped table-hover shadow-sm">
         <thead class="table-dark text-center">
           <tr>
-            <th>N°</th> <!-- Numéro ajouté -->
+            <th>N°</th>
             <th>Prénom</th>
             <th>Nom</th>
             <th>Téléphone</th>
@@ -95,7 +99,7 @@
         const row = document.createElement("tr");
         row.classList.add("fade-in");
         row.innerHTML = `
-          <td>${index + 1}</td> <!-- Numérotation automatique -->
+          <td>${index + 1}</td>
           <td>${user.prenom}</td>
           <td>${user.nom}</td>
           <td>${user.tel}</td>
@@ -110,6 +114,14 @@
           </td>
         `;
         tableBody.appendChild(row);
+
+        // Saut de page après chaque 21e utilisateur (sauf à la fin)
+        if ((index + 1) % 21 === 0 && index + 1 < users.length) {
+          const pageBreakRow = document.createElement("tr");
+          pageBreakRow.className = "page-break";
+          pageBreakRow.innerHTML = `<td colspan="6"></td>`;
+          tableBody.appendChild(pageBreakRow);
+        }
       });
     }
 
