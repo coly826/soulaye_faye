@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liste des des Membres</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    @media print {
+      thead.table-dark th {
+        background-color: black !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      /* Masquer la colonne "Actions" dans le tableau */
+      th:nth-child(5), td:nth-child(5) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white">
+  <div class="container mt-5">
+    <h2 class="mb-4">Liste des des Membres</h2>
+    <table class="table table-bordered text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Téléphone</th>
+          <th>Numéro CNI</th>
+          <th class="no-print">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+    <a href="form.html" class="btn btn-primary no-print">Ajouter un autre </a>
+  </div>
+
+  <script>
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    const tableBody = document.getElementById("userTableBody");
+
+    function renderUsers() {
+      tableBody.innerHTML = "";
+      users.forEach((user, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${user.prenom}</td>
+          <td>${user.nom}</td>
+          <td>${user.tel}</td>
+          <td>${user.cin}</td>
+          <td class="no-print">
+            <button class="btn btn-warning btn-sm me-2" onclick="editUser(${index})">Modifier</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteUser(${index})">Supprimer</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function deleteUser(index) {
+      if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+        users.splice(index, 1);
+        localStorage.setItem("users", JSON.stringify(users));
+        renderUsers();
+      }
+    }
+
+    function editUser(index) {
+      const user = users[index];
+      const prenom = prompt("Modifier le prénom :", user.prenom);
+      const nom = prompt("Modifier le nom :", user.nom);
+      const tel = prompt("Modifier le téléphone :", user.tel);
+      const cin = prompt("Modifier le numéro CNI :", user.cin);
+
+      if (prenom && nom && tel && cin) {
+        users[index] = { prenom, nom, tel, cin };
+        localStorage.setItem("users", JSON.stringify(users));
+        renderUsers();
+      }
+    }
+
+    renderUsers();
+  </script>
+</body>
+</html>
