@@ -37,7 +37,7 @@
         display: none !important;
       }
 
-      th:nth-child(5), td:nth-child(5) {
+      th:nth-child(6), td:nth-child(6) {
         display: none;
       }
 
@@ -63,6 +63,7 @@
       <table class="table table-bordered table-striped table-hover shadow-sm">
         <thead class="table-dark text-center">
           <tr>
+            <th>N°</th> <!-- Numéro ajouté -->
             <th>Prénom</th>
             <th>Nom</th>
             <th>Téléphone</th>
@@ -78,7 +79,6 @@
       <a href="index.html" class="btn btn-success">
         <i class="bi bi-person-plus"></i> Ajouter un membre
       </a>
-     
     </div>
   </div>
 
@@ -95,6 +95,7 @@
         const row = document.createElement("tr");
         row.classList.add("fade-in");
         row.innerHTML = `
+          <td>${index + 1}</td> <!-- Numérotation automatique -->
           <td>${user.prenom}</td>
           <td>${user.nom}</td>
           <td>${user.tel}</td>
